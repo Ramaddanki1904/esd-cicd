@@ -1,0 +1,14 @@
+services:
+  backend:
+    build: ./ems-backend
+    container_name: ems-backend
+    ports:
+      - "8081:8081"
+
+  frontend:
+    build: ./ems-fullstack
+    container_name: ems-frontend
+    ports:
+      - "5173:80"
+    depends_on:
+      - backend
