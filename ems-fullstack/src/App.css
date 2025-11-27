@@ -1,0 +1,167 @@
+/* ✅ GLOBAL RESET */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+/* ✅ PAGE BACKGROUND */
+body {
+  background: linear-gradient(120deg, #e0c3fc, #8ec5fc);
+  min-height: 100vh;
+}
+
+/* ✅ HEADER STYLE */
+.header {
+  background: linear-gradient(90deg, #667eea, #764ba2);
+  color: white;
+  padding: 15px 40px;
+  font-size: 22px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  box-shadow: 0px 4px 10px rgba(0,0,0,0.2);
+}
+
+/* ✅ MAIN CONTAINER */
+.container {
+  background: white;
+  padding: 25px;
+  border-radius: 14px;
+  box-shadow: 0px 10px 25px rgba(0,0,0,0.2);
+  margin-top: 40px;
+  animation: fadeIn 0.7s ease-in-out;
+}
+
+/* ✅ SMOOTH ENTRY ANIMATION */
+@keyframes fadeIn {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0px);
+    opacity: 1;
+  }
+}
+
+/* ✅ PAGE TITLES */
+h2 {
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 25px;
+  text-align: center;
+}
+
+/* ✅ FORM INPUTS */
+input.form-control {
+  height: 45px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  transition: 0.3s ease;
+}
+
+input.form-control:focus {
+  border-color: #764ba2;
+  box-shadow: 0px 0px 8px rgba(118, 75, 162, 0.4);
+}
+
+/* ✅ BUTTONS */
+.btn {
+  border-radius: 8px;
+  font-weight: 500;
+  padding: 8px 18px;
+  transition: 0.3s ease;
+}
+
+.btn-success {
+  background: linear-gradient(90deg, #00c6ff, #0072ff);
+  border: none;
+}
+
+.btn-success:hover {
+  transform: scale(1.05);
+  box-shadow: 0px 6px 12px rgba(0, 114, 255, 0.4);
+}
+
+.btn-danger {
+  background: linear-gradient(90deg, #ff4b2b, #ff416c);
+  border: none;
+}
+
+.btn-danger:hover {
+  transform: scale(1.05);
+  box-shadow: 0px 6px 12px rgba(255, 65, 108, 0.4);
+}
+
+.btn-info {
+  background: linear-gradient(90deg, #00dbde, #fc00ff);
+  border: none;
+  color: white;
+}
+
+.btn-info:hover {
+  transform: scale(1.05);
+}
+
+.btn-primary {
+  background: linear-gradient(90deg, #667eea, #764ba2);
+  border: none;
+}
+
+.btn-primary:hover {
+  transform: scale(1.05);
+}
+
+/* ✅ TABLE DESIGN */
+.table {
+  border-radius: 12px;
+  overflow: hidden;
+  text-align: center;
+}
+
+.table thead {
+  background: linear-gradient(90deg, #667eea, #764ba2);
+  color: white;
+  font-size: 15px;
+}
+
+.table tbody tr {
+  transition: 0.3s ease;
+}
+
+.table tbody tr:hover {
+  background-color: #f1f4ff;
+  transform: scale(1.01);
+}
+
+/* ✅ ACTION BUTTON CELL */
+.table td button {
+  margin: 2px;
+}
+
+/* ✅ ADD EMPLOYEE BUTTON */
+button.btn-primary {
+  margin-bottom: 15px;
+}
+
+/* ✅ FOOTER SPACING FIX */
+.footer-space {
+  margin-bottom: 60px;
+}
+
+/* ✅ MOBILE RESPONSIVE */
+@media (max-width: 768px) {
+  .container {
+    padding: 15px;
+  }
+
+  .header {
+    text-align: center;
+    font-size: 18px;
+  }
+
+  h2 {
+    font-size: 20px;
+  }
+}
