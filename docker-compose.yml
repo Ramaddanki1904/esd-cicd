@@ -1,14 +1,43 @@
+version: "3.9"
+
 services:
+  db:
+    image: mysql:8.0
+    container_name: ems-mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: emsdb
+      MYSQL_USER: emsuser
+      MYSQL_PASSWORD: emspassword
+    ports:
+      - "3308:3306"
+    volumes:
+      - ems-db-data:/var/lib/mysql
+
   backend:
     build: ./ems-backend
     container_name: ems-backend
+    restart: always
     ports:
-      - "8081:8081"
+      - "8081:8081"   # ✅ Correct for your setup
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/emsdb?createDatabaseIfNotExist=true&allowPublicKeyRetrieval=true&useSSL=false
+      SPRING_DATASOURCE_USERNAME: emsuser
+      SPRING_DATASOURCE_PASSWORD: emspassword
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      SERVER_PORT: 8081
+    depends_on:
+      - db
 
   frontend:
     build: ./ems-fullstack
     container_name: ems-frontend
+    restart: always
     ports:
-      - "5173:80"
+      - "5173:80"     # ✅ Frontend access stays same
     depends_on:
       - backend
+
+volumes:
+  ems-db-data:

@@ -1,118 +1,122 @@
-import { useEffect, useState } from "react";
 import axios from "axios";
+import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import "../App.css";
 
-function EmployeeComponent() {
+const EmployeeComponent = () => {
+
+  const navigate = useNavigate();
+  const { id } = useParams();  // ✅ will be undefined for Add, defined for Update
 
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
 
-  const navigate = useNavigate();
-  const { id } = useParams();
-
-  // ✅ FETCH FOR UPDATE
+  // ✅ If ID exists → load employee for UPDATE
   useEffect(() => {
     if (id) {
       axios.get(`http://localhost:8081/api/emp/${id}`)
-        .then(response => {
-          setFirstName(response.data.firstName);
-          setLastName(response.data.lastName);
-          setEmail(response.data.email);
+        .then(res => {
+          setFirstName(res.data.firstName);
+          setLastName(res.data.lastName);
+          setEmail(res.data.email);
         })
-        .catch(error => console.error(error));
+        .catch(err => {
+          console.error("❌ Fetch error:", err);
+        });
     }
   }, [id]);
 
-  // ✅ SAVE / UPDATE
+  // ✅ Handles BOTH Add & Update
   const saveOrUpdateEmployee = (e) => {
     e.preventDefault();
 
-    const employee = {
-      firstName: firstName,
-      lastName: lastName,
-      email: email
-    };
+    const employee = { firstName, lastName, email };
 
-    console.log("SENDING:", employee);
-
+    // ✅ UPDATE
     if (id) {
       axios.put(`http://localhost:8081/api/emp/${id}`, employee)
-        .then(() => navigate("/emplist"))
-        .catch(err => console.error("UPDATE ERROR:", err));
+        .then(() => {
+          alert("✅ Employee Updated Successfully");
+          navigate("/employees");
+        })
+        .catch(err => {
+          console.error("❌ Update error:", err);
+          alert("Update failed");
+        });
+
+    
     } else {
       axios.post("http://localhost:8081/api/emp", employee)
-        .then(() => navigate("/emplist"))
-        .catch(err => console.error("SAVE ERROR:", err));
+        .then(() => {
+          alert("✅ Employee Added Successfully");
+          navigate("/employees");
+        })
+        .catch(err => {
+          console.error("❌ Add error:", err);
+          alert("Add failed");
+        });
     }
   };
 
   return (
-    <div className="container st-ba">
-      <div className="row justify-content-center">
-        <div className="card card-top">
+    <div className="container mt-4">
+      <h2 className="text-center">
+        {id ? "Update Employee" : "Add Employee"}
+      </h2>
 
-          <h3 className="text-center title">
-            {id ? "Update Employee" : "Add Employee"}
-          </h3>
+      <div className="card col-md-6 offset-md-3 p-4">
+        <form>
 
-          <div className="card-body">
-
-            <form onSubmit={saveOrUpdateEmployee}>
-
-              <div className="form-group mb-2">
-                <label>First Name :</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  value={firstName}
-                  onChange={(e) => setFirstName(e.target.value)}
-                  required
-                />
-              </div>
-
-              <div className="form-group mb-2">
-                <label>Last Name :</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  value={lastName}
-                  onChange={(e) => setLastName(e.target.value)}
-                  required
-                />
-              </div>
-
-              <div className="form-group mb-2">
-                <label>Email :</label>
-                <input
-                  type="email"
-                  className="form-control"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  required
-                />
-              </div>
-
-              <button className="btn btn-success mt-3">
-                {id ? "Update" : "Save"}
-              </button>
-
-              <button
-                type="button"
-                className="btn btn-danger mt-3 ms-2"
-                onClick={() => navigate("/emplist")}
-              >
-                Cancel
-              </button>
-
-            </form>
-
+          <div className="form-group mb-3">
+            <label>First Name</label>
+            <input
+              type="text"
+              className="form-control"
+              value={firstName}
+              onChange={(e) => setFirstName(e.target.value)}
+            />
           </div>
-        </div>
+
+          <div className="form-group mb-3">
+            <label>Last Name</label>
+            <input
+              type="text"
+              className="form-control"
+              value={lastName}
+              onChange={(e) => setLastName(e.target.value)}
+            />
+          </div>
+
+          <div className="form-group mb-3">
+            <label>Email</label>
+            <input
+              type="email"
+              className="form-control"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+          </div>
+
+          <button
+            type="button"
+            className="btn btn-success"
+            onClick={saveOrUpdateEmployee}
+          >
+            {id ? "Update" : "Save"}
+          </button>
+
+          <button
+            type="button"
+            className="btn btn-secondary mx-2"
+            onClick={() => navigate("/employees")}
+          >
+            Cancel
+          </button>
+
+        </form>
       </div>
     </div>
   );
-}
+};
 
 export default EmployeeComponent;
